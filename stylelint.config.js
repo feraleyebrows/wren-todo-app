@@ -4,7 +4,11 @@ module.exports = {
     "at-rule-no-unknown": [ true, {
       "ignoreAtRules": [
         "extends",
-        "tailwind"
+        "tailwind",
+        "apply",
+        "variants",
+        "responsive",
+        "screen",
       ]
     }],
     "block-no-empty": null,
