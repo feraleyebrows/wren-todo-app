@@ -20,6 +20,12 @@ export const TodoArea = ({initialTodos, initialHideComplete}: initialState) => {
     newMap.set(todoId, {text, isComplete: false})
     setTodos(newMap);
   }
+  const updateTodoText = (todoId: number, inputValue: string) => {
+    let newMap = new Map(todos);
+    let todo = newMap.get(todoId);
+    newMap.set(todoId, { text: inputValue, isComplete: todo.isComplete});
+    setTodos(newMap);
+  }
 
   const removeTodo = (todoId: number) => {
     let newMap = new Map(todos);
@@ -30,8 +36,7 @@ export const TodoArea = ({initialTodos, initialHideComplete}: initialState) => {
   const toggleTodoComplete = (todoId: number) => {
     let newMap = new Map(todos);
     let todo = newMap.get(todoId);
-    let newTodoEntry = { text: todo.text, isComplete: !todo.isComplete};
-    newMap.set(todoId, newTodoEntry);
+    newMap.set(todoId,{ text: todo.text, isComplete: !todo.isComplete});
     setTodos(newMap); 
   }
 
@@ -64,13 +69,14 @@ export const TodoArea = ({initialTodos, initialHideComplete}: initialState) => {
         const {text, isComplete} = todo[1];
         return (
           <TodoRow
+          text={text}
           key={todoId} 
           todoId={todoId} 
-          text={text} 
           isComplete={isComplete}
           hideComplete={hideComplete}
-          toggleTodoCompleteHandler={toggleTodoComplete} 
           removeTodoHandler={removeTodo}
+          updateTodoTextHandler={updateTodoText}
+          toggleTodoCompleteHandler={toggleTodoComplete} 
           />
         )
       })}
