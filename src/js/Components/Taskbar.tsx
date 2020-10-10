@@ -22,11 +22,11 @@ export const Taskbar = (props: Props) => {
   } = props;
 
   return (
-  <div className="flex flex-col md:flex-row space-x-4 items-center">
-      <div className="flex-grow mb-6 md:mb-0">
+  <div className="flex flex-col lg:flex-row space-x-4 items-center">
+      <div className="flex-grow flex-1 w-11/12 mb-6 lg:mb-0">
         <AddTodo addTodoHandler={addTodoHandler}/>
       </div>
-      <div className="flex space-x-4">
+      <div className="flex space-x-6 lg:space-x-4">
       <HideAllCompleted hideComplete={hideComplete} hideAllCompletedHandler={hideAllCompletedHandler} />
       <RemoveAllCompleted removeAllCompletedHandler={removeAllCompletedHandler} />
       <RemoveAll removeAllHandler={removeAllHandler} />

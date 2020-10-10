@@ -9,32 +9,41 @@ interface initialState {
 }
 
 export const TodoArea = ({initialTodos, initialHideComplete}: initialState) => {
-  const [ todos, setTodos ] = React.useState(initialTodos);
+  let localTodos: Map<number, todoEntry> | null;
+  (window.localStorage.getItem('todos') !== null) 
+  ? localTodos = new Map(JSON.parse(window.localStorage.getItem('todos')))
+  : localTodos = null
+  const [ todos, setTodos ] = React.useState(localTodos || initialTodos);
   const [ hideComplete, setHideComplete ] = React.useState(initialHideComplete);
 
+  React.useEffect(() => {
+    window.localStorage.setItem('todos', JSON.stringify([...todos]));
+  }, ['todos', todos]);
+
   const addTodo = (inputValue: string) => {
-    let newMap = new Map(todos);
+    let newMap: Map<number, todoEntry> = new Map(todos);
     // would normally install uuid for next line but read about performance.now and thought this was pretty cool. More info at the bottom of this file.
     let todoId = parseInt(performance.now().toString().split(".").join(""));
     let text = inputValue;
     newMap.set(todoId, {text, isComplete: false})
     setTodos(newMap);
   }
+  
   const updateTodoText = (todoId: number, inputValue: string) => {
-    let newMap = new Map(todos);
+    let newMap: Map<number, todoEntry> = new Map(todos);
     let todo = newMap.get(todoId);
     newMap.set(todoId, { text: inputValue, isComplete: todo.isComplete});
     setTodos(newMap);
   }
 
   const removeTodo = (todoId: number) => {
-    let newMap = new Map(todos);
+    let newMap: Map<number, todoEntry> = new Map(todos);
     newMap.delete(todoId);
     setTodos(newMap);
   }
 
   const toggleTodoComplete = (todoId: number) => {
-    let newMap = new Map(todos);
+    let newMap: Map<number, todoEntry> = new Map(todos);
     let todo = newMap.get(todoId);
     newMap.set(todoId,{ text: todo.text, isComplete: !todo.isComplete});
     setTodos(newMap); 
@@ -45,12 +54,12 @@ export const TodoArea = ({initialTodos, initialHideComplete}: initialState) => {
   }
 
   const removeAllCompleted = () => {
-    let newMap = new Map([...todos.entries()].filter(todo => !todo[1].isComplete));
+    let newMap: Map<number, todoEntry> = new Map([...todos.entries()].filter(todo => !todo[1].isComplete));
     setTodos(newMap);
   }
 
   const removeAll = () => {
-    const newMap = new Map();
+    const newMap: Map<number, todoEntry> = new Map();
     setTodos(newMap);
   }
 
@@ -64,7 +73,8 @@ export const TodoArea = ({initialTodos, initialHideComplete}: initialState) => {
       removeAllHandler={removeAll} 
       />
       <ul className="mt-6">
-      {[...todos.entries()].map(todo => {
+      {
+      [...todos.entries()].map(todo => {
         const todoId = todo[0];
         const {text, isComplete} = todo[1];
         return (

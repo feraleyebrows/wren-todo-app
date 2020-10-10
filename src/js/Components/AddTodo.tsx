@@ -17,10 +17,10 @@ export const AddTodo = ({addTodoHandler}: Props) => {
   }
 
   return (
-    <div className="flex space-x-4 items-center">
+    <div className="flex  space-x-4 items-center">
         <input
           id="new_todo_input"
-          className="flex-grow appearance-none bg-gray-200 text-gray-700 border rounded p-2 leading-tight focus:outline-none focus:bg-white"
+          className="flex-grow flex-1 appearance-none bg-gray-200 text-gray-700 border rounded p-2 leading-tight focus:outline-none focus:bg-white"
           type="text"
           value={inputValue}
           onChange={handleChange}
