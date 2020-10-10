@@ -1,6 +1,6 @@
 import { todoEntry } from './declarations';
 
-let initialTodos: Map<number, todoEntry> = new Map([
+export let initialTodos: Map<number, todoEntry> = new Map([
     [ 0,
       {
       text: "Implement the addTodo method",
@@ -44,9 +44,4 @@ let initialTodos: Map<number, todoEntry> = new Map([
     ]
   ])
 
-let initialHideComplete: boolean = false;
-
-  export default {
-    initialTodos,
-    initialHideComplete
-  }
+export let initialHideComplete: boolean = false;
